@@ -19,13 +19,11 @@ public class Sidebar  extends BasePage {
     }
 
     public NewMessageModalWindow showNewMessageModalWindow() {
-        wait.until(ExpectedConditions.elementToBeClickable(composeButton));
         click(composeButton);
         return new NewMessageModalWindow(driver);
     }
 
     public DraftsPage goToDraftsPage() {
-        wait.until(ExpectedConditions.elementToBeClickable(draftsButton));
         click(draftsButton);
         wait.until(ExpectedConditions.titleContains("Draft"));
         return new DraftsPage(driver);

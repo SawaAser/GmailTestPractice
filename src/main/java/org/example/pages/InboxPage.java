@@ -34,7 +34,6 @@ public class InboxPage extends BasePage {
 
     public MailPage goToMailByNameContains(String partName) {
         WebElement matchingEmail = getMatchingEmail(partName);
-        wait.until(ExpectedConditions.elementToBeClickable(matchingEmail));
         click(matchingEmail);
         return new MailPage(driver);
     }

@@ -31,7 +31,6 @@ public class NewMessageModalWindow extends BasePage{
     }
 
     public void writeRecipient(String recipientEmail) {
-        wait.until(ExpectedConditions.elementToBeClickable(recipient));
         click(recipient);
         write(to, recipientEmail);
     }

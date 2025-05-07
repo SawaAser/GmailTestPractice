@@ -14,7 +14,6 @@ public class IncomeEmailTest extends BaseTest {
     MailPage mailPage;
 
     @Test
-    @Parameters
     public void testEmail() {
         assertTrue(inboxPage.isEmailPresent(NUMBER_IN_MAIL_TITLE), "We don't have email with number: " + NUMBER_IN_MAIL_TITLE);
 

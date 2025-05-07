@@ -35,7 +35,6 @@ public class DraftModalWindow extends BasePage {
     }
 
     public void deleteOpenDraft() {
-        wait.until(ExpectedConditions.elementToBeClickable(discard));
         click(discard);
     }
 }
