@@ -1,5 +1,7 @@
 .env
-*.properties
+#src/main/resources/credentials.properties
+#src/main/resources/config.properties
+*properties
 .logs/
 .idea/
 
