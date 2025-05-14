@@ -14,7 +14,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +23,9 @@ import java.util.Date;
 public class BaseTest {
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    protected String EMAIL = Config.getEmail();
-    protected String PASSWORD = Config.getPassword();
+    protected final String EMAIL = Config.getEmail();
+    protected final String PASSWORD = Config.getPassword();
+
     protected LoginPage loginPage;
     protected InboxPage inboxPage;
     protected Sidebar sidebar;
@@ -47,8 +47,8 @@ public class BaseTest {
 
     @AfterMethod
     public void takeScreenshotForFailures(ITestResult testResult) {
-        if (driver != null && testResult.getStatus() == ITestResult.FAILURE) {
-            TakesScreenshot screenshot = (TakesScreenshot) driver;
+        if (getDriver() != null && testResult.getStatus() == ITestResult.FAILURE) {
+            TakesScreenshot screenshot = (TakesScreenshot) getDriver();
             File source = screenshot.getScreenshotAs(OutputType.FILE);
 
             File screenshotsDir = new File(System.getProperty("user.dir") + "/resources/screenshots/");

@@ -13,10 +13,13 @@ import java.time.Duration;
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected WebDriverWait shortWait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait =new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
+
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
@@ -30,7 +33,7 @@ public abstract class BasePage {
         }
     }
 
-    public void write(WebElement element, String text) {
+    public void sendText(WebElement element, String text) {
         wait.until(ExpectedConditions.visibilityOf(element));
         element.clear();
         element.sendKeys(text);

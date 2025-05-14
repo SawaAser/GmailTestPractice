@@ -3,7 +3,6 @@ package org.example.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DraftModalWindow extends BasePage {
     @FindBy(xpath = "//div[@role='dialog']//h2//span")

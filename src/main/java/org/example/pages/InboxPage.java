@@ -3,7 +3,6 @@ package org.example.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,10 +13,6 @@ public class InboxPage extends BasePage {
 
     public InboxPage(WebDriver driver) {
         super(driver);
-    }
-
-    public boolean isNotEmptyEmails() {
-        return !incomeEmails.isEmpty();
     }
 
     public boolean isEmailPresent(String partName) {

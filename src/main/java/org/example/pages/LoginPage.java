@@ -19,9 +19,9 @@ public class LoginPage extends BasePage{
     }
 
     public InboxPage login(String email, String password) {
-        write(emailInput, email);
+        sendText(emailInput, email);
         click(nextButton);
-        write(passwordInput, password);
+        sendText(passwordInput, password);
         click(nextButton);
         return new InboxPage(driver);
     }

@@ -3,7 +3,6 @@ package org.example.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class NewMessageModalWindow extends BasePage{
     @FindBy(xpath = "//input[@name='subjectbox']")
@@ -26,22 +25,19 @@ public class NewMessageModalWindow extends BasePage{
     }
 
     public void writeTitle(String text) {
-        wait.until(ExpectedConditions.elementToBeClickable(title));
-        write(title, text);
+        sendText(title, text);
     }
 
     public void writeRecipient(String recipientEmail) {
         click(recipient);
-        write(to, recipientEmail);
+        sendText(to, recipientEmail);
     }
 
     public void writeBody(String text) {
-        wait.until(ExpectedConditions.elementToBeClickable(body));
-        write(body, text);
+        sendText(body, text);
     }
 
     public void saveAndClose() {
-        wait.until(ExpectedConditions.elementToBeClickable(saveAndClose));
         click(saveAndClose);
     }
 }

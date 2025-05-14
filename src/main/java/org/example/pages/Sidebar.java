@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class Sidebar  extends BasePage {
+public class Sidebar extends BasePage {
     @FindBy(xpath = "//div[text()='Compose' or text()='Написати']")
     private WebElement composeButton;
 
