@@ -1,78 +1,63 @@
 package org.example.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.google.j2objc.annotations.Property;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.config.Config;
 import org.example.pages.InboxPage;
 import org.example.pages.LoginPage;
 import org.example.pages.Sidebar;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.example.utils.DriverFactory;
+import org.example.utils.ScreenshotUtil;
+import org.example.utils.WebEventListener;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.io.FileHandler;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class BaseTest {
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-
-    protected final String EMAIL = Config.getEmail();
-    protected final String PASSWORD = Config.getPassword();
+    WebDriver driver;
 
     protected LoginPage loginPage;
     protected InboxPage inboxPage;
     protected Sidebar sidebar;
 
-    public WebDriver getDriver() {
-        return driver.get();
-    }
+    protected final String EMAIL = Config.getEmail();
+    protected final String PASSWORD = Config.getPassword();
+
+    private static final Logger logger = LogManager.getLogger(BaseTest.class);
 
     @BeforeClass
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver.set(new ChromeDriver());
-        getDriver().get(Config.getBaseUrl());
-        getDriver().manage().window().maximize();
-        loginPage = new LoginPage(getDriver());
+    @Parameters("browser")
+    public void setUp(@Optional("default") String browserParam) {
+        DriverFactory.setDriver(browserParam);
+        driver = DriverFactory.getDriver();
+        driver.get(Config.getBaseUrl());
+        driver.manage().window().maximize();
+        loginPage = new LoginPage(driver);
         inboxPage = loginPage.login(EMAIL, PASSWORD);
-        sidebar = new Sidebar(getDriver());
+        sidebar = new Sidebar(driver);
+        logger.info("-----Start TEST CLASS-----");
+    }
+
+    @BeforeMethod
+    public void startMethod(ITestResult testResult) {
+        logger.info("-----Start TEST ----- {}", testResult.getMethod().getMethodName());
     }
 
     @AfterMethod
-    public void takeScreenshotForFailures(ITestResult testResult) {
-        if (getDriver() != null && testResult.getStatus() == ITestResult.FAILURE) {
-            TakesScreenshot screenshot = (TakesScreenshot) getDriver();
-            File source = screenshot.getScreenshotAs(OutputType.FILE);
+    public void afterEachTest(ITestResult testResult) {
+        logger.info("-----End TEST ----- {}", testResult.getMethod().getMethodName());
 
-            File screenshotsDir = new File(System.getProperty("user.dir") + "/resources/screenshots/");
-            if (!screenshotsDir.exists()) {
-                screenshotsDir.mkdirs();
-            }
-
-            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            File destination = new File(screenshotsDir, testResult.getName() + "_" + timestamp + ".png");
-
-            try {
-                FileHandler.copy(source, destination);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (testResult.getStatus() == ITestResult.FAILURE) {
+            ScreenshotUtil.takeScreenshot(driver, testResult.getName());
         }
     }
 
     @AfterClass
     public void tearDown() {
-        if (getDriver() != null) {
-            getDriver().quit();
-            driver.remove();  // очищення ThreadLocal
-        }
+        DriverFactory.quitDriver();
+        logger.info("-----End TEST CLASS-----");
     }
 }
 
