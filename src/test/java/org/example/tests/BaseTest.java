@@ -1,6 +1,5 @@
 package org.example.tests;
 
-import com.google.j2objc.annotations.Property;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.config.Config;
@@ -9,7 +8,6 @@ import org.example.pages.LoginPage;
 import org.example.pages.Sidebar;
 import org.example.utils.DriverFactory;
 import org.example.utils.ScreenshotUtil;
-import org.example.utils.WebEventListener;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;

@@ -1,7 +1,5 @@
 package org.example.config;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
