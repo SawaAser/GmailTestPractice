@@ -3,7 +3,9 @@
 #src/main/resources/config.properties
 *properties
 .logs/
+*.log.gz
 .idea/
+out/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
