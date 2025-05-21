@@ -45,14 +45,19 @@ public class UsersServiceTest {
         assertEquals(expectedUser, actualUser);
     }
 
-    @Test
+    @Test(priority = 1)
     public void testPostUser() {
         User testUser = createTestUser();
 
         usersService.createUser(testUser)
                 .then()
                 .assertThat()
-                .statusCode(201);
+                .statusCode(201)
+                .body("name", equalTo(testUser.getName()))
+                .body("username", equalTo(testUser.getUsername()))
+                .body("email", equalTo(testUser.getEmail()))
+                .body("address.street", equalTo(testUser.getAddress().getStreet()))
+                .body("company.name", equalTo(testUser.getCompany().getName()));
     }
 
     @Test
@@ -63,12 +68,19 @@ public class UsersServiceTest {
                 .statusCode(200);
     }
 
-    @Test
+    @Test(priority = 2)
     public void testPutUser() {
-        usersService.putUserByID(3, createTestUser(3))
+        User testUser = createTestUser(3);
+        usersService.putUserByID(3, testUser)
                 .then()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("id", equalTo(testUser.getId()))
+                .body("name", equalTo(testUser.getName()))
+                .body("username", equalTo(testUser.getUsername()))
+                .body("email", equalTo(testUser.getEmail()))
+                .body("address.street", equalTo(testUser.getAddress().getStreet()))
+                .body("company.name", equalTo(testUser.getCompany().getName()));
     }
 
     private User createExpectedUser() {

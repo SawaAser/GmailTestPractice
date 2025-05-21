@@ -49,6 +49,7 @@ public class UsersService {
 
     public Response putUserByID(int id, User user) {
         return given()
+                    .contentType("application/json")
                     .body(user)
                 .when()
                     .put(endpoint + "/" + id);
