@@ -5,17 +5,15 @@ import io.restassured.response.Response;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
+import static io.restassured.RestAssured.*;
 
 public class UsersService {
     private String endpoint = "https://jsonplaceholder.typicode.com/users";
 
     public Response getResponseUsers() {
-        Response response = given()
+        return given()
                 .when()
-                .get(endpoint);
-        return response;
+                    .get(endpoint);
     }
 
     public List<User> getListUsers() {
@@ -27,11 +25,32 @@ public class UsersService {
 
     public User getUserByID(int id) {
         return given()
-                .queryParam("id", id)
+                    .queryParam("id", id)
                 .when()
-                .get(endpoint)
-                .jsonPath()
-                .getList("", User.class)
-                .getFirst();
+                    .get(endpoint)
+                    .jsonPath()
+                    .getList("", User.class)
+                        .getFirst();
+    }
+
+    public Response createUser(User user) {
+        return given()
+                    .contentType("application/json")
+                    .body(user)
+                .when()
+                    .post(endpoint);
+    }
+
+    public Response deleteUserByID(int id) {
+        return given()
+                .when()
+                    .delete(endpoint + "/" + id);
+    }
+
+    public Response putUserByID(int id, User user) {
+        return given()
+                    .body(user)
+                .when()
+                    .put(endpoint + "/" + id);
     }
 }
